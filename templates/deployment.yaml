@@ -55,6 +55,13 @@ spec:
             - configMapRef:
                 name: {{ .Values.app.configMapName }}
           {{- end }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.deployment.readinessPath }}
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
